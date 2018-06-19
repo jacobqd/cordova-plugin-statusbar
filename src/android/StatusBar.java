@@ -63,6 +63,11 @@ public class StatusBar extends CordovaPlugin {
 				window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 				window.setStatusBarColor(Color.TRANSPARENT);
 				window.setNavigationBarColor(Color.TRANSPARENT);
+                // 设置根布局的参数  
+                ViewGroup rootView = (ViewGroup) ((ViewGroup) cordova.getActivity().findViewById(android.R.id.content))  
+                        .getChildAt(0);  
+                rootView.setFitsSystemWindows(true);  
+                rootView.setClipToPadding(true);  
 				//添加内容end
                 window.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
