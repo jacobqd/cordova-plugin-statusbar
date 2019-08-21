@@ -67,6 +67,9 @@ var StatusBar = {
         // #FF000000 ? Apple says to use lightContent instead
         exec(null, null, "StatusBar", "styleBlackOpaque", []);
     },
+    getStatusBarHeight: function (arg0, success, error) {
+        exec(success, error, "StatusBar", "getStatusBarHeight", [arg0]);
+    },
 
     backgroundColorByName: function (colorname) {
         return StatusBar.backgroundColorByHexString(namedColors[colorname]);
