@@ -209,6 +209,17 @@ public class StatusBar extends CordovaPlugin {
             return true;
         }
 
+        if ("getStatusBarHeight".equals(action)) {
+            this.cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    getStatusBarHeight(callbackContext);
+                }
+            });
+            return true;
+        }
+
+
         return false;
     }
 
