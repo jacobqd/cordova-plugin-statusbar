@@ -60,31 +60,16 @@ public class StatusBar extends CordovaPlugin {
                 // Clear flag FLAG_FORCE_NOT_FULLSCREEN which is set initially
                 // by the Cordova.
                 Window window = cordova.getActivity().getWindow();
-                //添加内容start
-        				// window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        				// window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                // window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        				// window.setStatusBarColor(Color.TRANSPARENT);
-                // window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+                window.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
-        				// window.setNavigationBarColor(Color.TRANSPARENT);
-                // ViewGroup winContent = (ViewGroup) cordova.getActivity().findViewById(android.R.id.content);
-                // if (winContent.getChildCount() > 0) {
-                //     ViewGroup rootView = (ViewGroup) winContent.getChildAt(0);
-                //     if (rootView != null) {
-                //         rootView.setFitsSystemWindows(true);
-                //     }
-                // }
-
-        				//添加内容end
-                // window.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+                // Read 'StatusBarOverlaysWebView' from config.xml, default is true.
+                setStatusBarTransparent(preferences.getBoolean("StatusBarOverlaysWebView", true));
 
                 // Read 'StatusBarBackgroundColor' from config.xml, default is #000000.
                 setStatusBarBackgroundColor(preferences.getString("StatusBarBackgroundColor", "#000000"));
 
                 // Read 'StatusBarStyle' from config.xml, default is 'lightcontent'.
                 setStatusBarStyle(preferences.getString("StatusBarStyle", "lightcontent"));
-
             }
         });
     }
@@ -223,15 +208,6 @@ public class StatusBar extends CordovaPlugin {
             });
             return true;
         }
-        if ("getStatusBarHeight".equals(action)) {
-            this.cordova.getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    getStatusBarHeight(callbackContext);
-                }
-            });
-            return true;
-        }
 
         return false;
     }
@@ -260,15 +236,10 @@ public class StatusBar extends CordovaPlugin {
         if (Build.VERSION.SDK_INT >= 21) {
             final Window window = cordova.getActivity().getWindow();
             if (transparent) {
-                // window.getDecorView().setSystemUiVisibility(
-                //         View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                //                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-                // window.setStatusBarColor(Color.TRANSPARENT);
-                window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        				window.setStatusBarColor(Color.TRANSPARENT);
-                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+                window.getDecorView().setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+                window.setStatusBarColor(Color.TRANSPARENT);
             }
             else {
                 window.getDecorView().setSystemUiVisibility(
